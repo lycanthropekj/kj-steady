@@ -26,6 +26,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun SetupScreen(
     viewModel: MainViewModel,
+    onNavigateToHealth: () -> Unit = {},
+    onNavigateToAdaptive: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -307,6 +309,40 @@ fun SetupScreen(
 
         Spacer(modifier = Modifier.height(14.dp))
 
+        // Health Connect & Integrations Card
+        Card(
+            shape = RoundedCornerShape(20.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Column(modifier = Modifier.padding(18.dp)) {
+                Text(
+                    text = "HEALTH CONNECT & SENSOR SYNC",
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                    letterSpacing = 1.sp
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "Connect Samsung Health, Fitbit Air (Google Health), and Google Fit. Configure preferred steps sources and sleep de-overlap rules.",
+                    fontSize = 12.sp,
+                    lineHeight = 17.sp,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f)
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                OutlinedButton(
+                    onClick = onNavigateToHealth,
+                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier.fillMaxWidth().height(48.dp)
+                ) {
+                    Text("Configure Health Connect Sync →", fontWeight = FontWeight.SemiBold, color = ForestGreen)
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(14.dp))
+
         // In-App Self-Updater Card
         val isCheckingUpdate by viewModel.isCheckingUpdate.collectAsState()
         val availableUpdate by viewModel.availableUpdate.collectAsState()
@@ -327,7 +363,7 @@ fun SetupScreen(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Current Installed Version: v2.0.4 (Build 6)\n" +
+                    text = "Current Installed Version: v2.0.5 (Build 7)\n" +
                             "Direct 1-tap updates without Google Play delays, developer fees, or public review.",
                     fontSize = 12.sp,
                     lineHeight = 17.sp,

@@ -78,16 +78,19 @@ class MainActivity : ComponentActivity() {
                                 NavigationBarItem(
                                     selected = selected,
                                     onClick = {
-                                        navController.navigate(screen.route) {
-                                            popUpTo(navController.graph.findStartDestination().id) {
-                                                saveState = true
+                                        if (currentRoute != screen.route) {
+                                            navController.navigate(screen.route) {
+                                                popUpTo(navController.graph.findStartDestination().id) {
+                                                    saveState = true
+                                                }
+                                                launchSingleTop = true
+                                                restoreState = true
                                             }
-                                            launchSingleTop = true
-                                            restoreState = true
                                         }
                                     },
                                     icon = { Icon(screen.icon, contentDescription = screen.title) },
                                     label = { Text(screen.title, fontSize = 10.sp) },
+                                    alwaysShowLabel = false,
                                     colors = NavigationBarItemDefaults.colors(
                                         selectedIconColor = ForestGreen,
                                         selectedTextColor = RestrainedLime,
@@ -113,6 +116,9 @@ class MainActivity : ComponentActivity() {
                                 onNavigateToLog = { date ->
                                     viewModel.setSelectedDate(date)
                                     navController.navigate(Screen.DailyLog.route)
+                                },
+                                onNavigateToHealth = {
+                                    navController.navigate(Screen.Health.route)
                                 }
                             )
                         }
@@ -144,7 +150,15 @@ class MainActivity : ComponentActivity() {
                             AdaptationScreen(viewModel = viewModel)
                         }
                         composable(Screen.Setup.route) {
-                            SetupScreen(viewModel = viewModel)
+                            SetupScreen(
+                                viewModel = viewModel,
+                                onNavigateToHealth = {
+                                    navController.navigate(Screen.Health.route)
+                                },
+                                onNavigateToAdaptive = {
+                                    navController.navigate(Screen.Adaptation.route)
+                                }
+                            )
                         }
                     }
                 }

@@ -1,6 +1,6 @@
 {
-  "versionCode": 6,
-  "versionName": "2.0.4",
-  "releaseNotes": "Security: Removed keystore from public git/zips; Health Connect: step source filtering and interval-union sleep de-overlap; Updater: verified lycanthropekj defaults with auto-migration; Dinner: explicit Home-Cooked vs Takeout recording.",
-  "downloadUrl": "https://github.com/lycanthropekj/kj-steady/releases/download/v2.0.4/KJ-Steady-v2.0.4.apk"
+  "versionCode": 7,
+  "versionName": "2.0.5",
+  "releaseNotes": "Fix: Resolved Overview screen zero-progress layout exception, added responsive bottom navigation with icon labels, and direct Health Connect sync shortcuts.",
+  "downloadUrl": "https://github.com/lycanthropekj/kj-steady/releases/download/v2.0.5/KJ-Steady-v2.0.5.apk"
 }

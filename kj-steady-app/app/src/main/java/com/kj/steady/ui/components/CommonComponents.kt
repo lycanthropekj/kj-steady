@@ -77,13 +77,16 @@ fun HeroWeightCard(
                     .clip(RoundedCornerShape(3.dp))
                     .background(Color.White.copy(alpha = 0.2f))
             ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth((summary.progressPercent / 100.0).toFloat().coerceIn(0f, 1f))
-                        .fillMaxHeight()
-                        .clip(RoundedCornerShape(3.dp))
-                        .background(RestrainedLime)
-                )
+                val progressFraction = (summary.progressPercent / 100.0).toFloat().coerceIn(0f, 1f)
+                if (progressFraction > 0f) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(progressFraction)
+                            .fillMaxHeight()
+                            .clip(RoundedCornerShape(3.dp))
+                            .background(RestrainedLime)
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.height(16.dp))

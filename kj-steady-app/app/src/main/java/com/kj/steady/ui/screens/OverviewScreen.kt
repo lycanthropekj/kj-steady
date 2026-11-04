@@ -24,6 +24,7 @@ import com.kj.steady.ui.viewmodel.MainViewModel
 fun OverviewScreen(
     viewModel: MainViewModel,
     onNavigateToLog: (String) -> Unit,
+    onNavigateToHealth: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val trendSummary by viewModel.trendSummary.collectAsState()
@@ -109,6 +110,13 @@ fun OverviewScreen(
         ) {
             Column {
                 Text(
+                    text = "OVERVIEW",
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = ForestGreen,
+                    letterSpacing = 1.5.sp
+                )
+                Text(
                     text = "One day at a time.",
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
@@ -186,11 +194,20 @@ fun OverviewScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         // Today's Activity Snapshot
-        Text(
-            text = "Today's Status",
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.SemiBold
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Today's Status",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+            TextButton(onClick = onNavigateToHealth) {
+                Text("Health Sync ⚙", fontSize = 12.sp, color = ForestGreen)
+            }
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 
