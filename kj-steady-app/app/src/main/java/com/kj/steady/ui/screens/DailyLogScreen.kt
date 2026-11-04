@@ -44,6 +44,7 @@ fun DailyLogScreen(
     var breakfastText by remember(currentEntry) { mutableStateOf(currentEntry?.breakfastText ?: "") }
     var snacksText by remember(currentEntry) { mutableStateOf(currentEntry?.lunchSnacksText ?: "") }
     var dinnerText by remember(currentEntry) { mutableStateOf(currentEntry?.dinnerText ?: "") }
+    var isDinnerHomeCooked by remember(currentEntry) { mutableStateOf(currentEntry?.isDinnerHomeCooked) }
     var notesText by remember(currentEntry) { mutableStateOf(currentEntry?.notes ?: "") }
 
     // BP Dialog State
@@ -341,11 +342,32 @@ fun DailyLogScreen(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
                     trailingIcon = {
-                        TextButton(onClick = { dinnerText = "Egg Bhurji (3 eggs) + 2 Phulkas + 100g Fresh Curd (~40g protein)" }) {
+                        TextButton(onClick = { 
+                            dinnerText = "Egg Bhurji (3 eggs) + 2 Phulkas + 100g Fresh Curd (~40g protein)"
+                            isDinnerHomeCooked = true
+                        }) {
                             Text("Preset", fontSize = 11.sp)
                         }
                     }
                 )
+
+                Spacer(modifier = Modifier.height(6.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    FilterChip(
+                        selected = isDinnerHomeCooked == true,
+                        onClick = { isDinnerHomeCooked = if (isDinnerHomeCooked == true) null else true },
+                        label = { Text("🍳 Home Cooked", fontSize = 11.sp) }
+                    )
+                    FilterChip(
+                        selected = isDinnerHomeCooked == false,
+                        onClick = { isDinnerHomeCooked = if (isDinnerHomeCooked == false) null else false },
+                        label = { Text("🥡 Ordered / Takeout", fontSize = 11.sp) }
+                    )
+                }
             }
         }
 
@@ -444,6 +466,7 @@ fun DailyLogScreen(
                     breakfastText = breakfastText.trim().ifEmpty { null },
                     lunchSnacksText = snacksText.trim().ifEmpty { null },
                     dinnerText = dinnerText.trim().ifEmpty { null },
+                    isDinnerHomeCooked = isDinnerHomeCooked,
                     notes = notesText.trim().ifEmpty { null },
                     isVerifiedMorningWeight = weight != null
                 )

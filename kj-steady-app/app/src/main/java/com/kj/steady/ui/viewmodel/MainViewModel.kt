@@ -96,13 +96,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             _isCheckingUpdate.value = true
             val url = _userPreferences.value.updateCheckUrl
-            val update = com.kj.steady.logic.UpdateManager.checkForUpdate(url, currentVersionCode = 5)
+            val update = com.kj.steady.logic.UpdateManager.checkForUpdate(url, currentVersionCode = 6)
             _isCheckingUpdate.value = false
             _availableUpdate.value = update
             if (update != null) {
                 _uiToast.emit("Update available: v${update.versionName}!")
             } else if (!silent) {
-                _uiToast.emit("KJ Steady is up to date (v2.0.3)")
+                _uiToast.emit("KJ Steady is up to date (v2.0.4)")
             }
         }
     }
@@ -205,18 +205,18 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun syncHealthConnect() {
         viewModelScope.launch {
             val date = _selectedDate.value
-            val result = healthConnectManager.fetchDailyMetrics(date)
+            val result = healthConnectManager.fetchDailyMetrics(date, _userPreferences.value)
             if (result != null) {
                 val existing = repository.getDailyEntryByDate(date) ?: DailyEntry(date = date)
                 val updated = existing.copy(
                     totalSteps = result.steps ?: existing.totalSteps,
                     sleepHours = result.sleepHours ?: existing.sleepHours,
                     morningWeight = if (existing.morningWeight == null) result.weightKg else existing.morningWeight,
-                    sourceAttribution = "Health Connect Sync",
+                    sourceAttribution = result.sourceName,
                     updatedAt = System.currentTimeMillis()
                 )
                 repository.upsertDailyEntry(updated)
-                _uiToast.emit("Synced from Health Connect!")
+                _uiToast.emit("Synced: ${result.sourceName}")
             } else {
                 _uiToast.emit("Health Connect unavailable or permissions needed.")
             }

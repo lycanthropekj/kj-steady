@@ -136,4 +136,36 @@ class LogicUnitTests {
         assertEquals(78, first.get("dia").asInt)
         assertEquals("Muesli + protein", first.get("breakfast").asString)
     }
+
+    @Test
+    fun testSleepIntervalUnionDeduplication() {
+        val t0 = java.time.Instant.parse("2026-11-04T17:30:00Z") // 23:00 IST
+        val t1 = java.time.Instant.parse("2026-11-04T18:00:00Z") // 23:30 IST
+        val t2 = java.time.Instant.parse("2026-11-05T00:30:00Z") // 06:00 IST
+        val t3 = java.time.Instant.parse("2026-11-05T01:00:00Z") // 06:30 IST
+        val napStart = java.time.Instant.parse("2026-11-05T08:30:00Z") // 14:00 IST
+        val napEnd = java.time.Instant.parse("2026-11-05T09:30:00Z") // 15:00 IST
+
+        // Samsung: 23:00 to 06:00 (7 hrs)
+        // Fitbit: 23:30 to 06:30 (7 hrs) - overlaps with Samsung
+        // Nap: 14:00 to 15:00 (1 hr)
+        val intervals = listOf(
+            com.kj.steady.health.TimeInterval(t0, t2),
+            com.kj.steady.health.TimeInterval(t1, t3),
+            com.kj.steady.health.TimeInterval(napStart, napEnd)
+        )
+
+        val merged = com.kj.steady.health.HealthConnectManager.mergeIntervals(intervals)
+        assertEquals(2, merged.size)
+        // First merged interval spans t0 to t3 (23:00 to 06:30 -> 7.5 hours)
+        assertEquals(t0, merged[0].start)
+        assertEquals(t3, merged[0].end)
+        // Second interval is the nap (1 hour)
+        assertEquals(napStart, merged[1].start)
+        assertEquals(napEnd, merged[1].end)
+
+        val totalSeconds = merged.sumOf { java.time.Duration.between(it.start, it.end).seconds }
+        val hours = totalSeconds / 3600.0
+        assertEquals(8.5, hours, 0.01) // Not 7 + 7 + 1 = 15!
+    }
 }

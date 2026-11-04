@@ -20,6 +20,7 @@ data class DailyEntry(
     val breakfastText: String? = null,
     val lunchSnacksText: String? = null,
     val dinnerText: String? = null,
+    val isDinnerHomeCooked: Boolean? = null, // true = home cooked, false = takeaway/ordered, null = unset
     val notes: String? = null,
     val exerciseMinutes: Int? = null,
     val exerciseNotes: String? = null,

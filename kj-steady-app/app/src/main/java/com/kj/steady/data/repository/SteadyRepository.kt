@@ -40,9 +40,15 @@ class SteadyRepository(
             medicationsNote = prefs.getString("medications_note", "None at present") ?: "None at present",
             isHealthConnectEnabled = prefs.getBoolean("hc_enabled", false),
             preferredStepsSource = prefs.getString("preferred_steps_source", "Samsung Health") ?: "Samsung Health",
+            preferredSleepSource = prefs.getString("preferred_sleep_source", "Auto Merge") ?: "Auto Merge",
             lastSyncTimestamp = prefs.getLong("last_sync_timestamp", 0L),
             isAdaptiveLearningEnabled = prefs.getBoolean("adaptive_enabled", true),
-            updateCheckUrl = prefs.getString("update_check_url", "https://raw.githubusercontent.com/lycanthropekj/kj-steady/main/version.json") ?: "https://raw.githubusercontent.com/lycanthropekj/kj-steady/main/version.json"
+            updateCheckUrl = run {
+                val raw = prefs.getString("update_check_url", null)
+                if (raw == null || raw.contains("eventible/kj-steady")) {
+                    "https://raw.githubusercontent.com/lycanthropekj/kj-steady/main/version.json"
+                } else raw
+            }
         )
     }
 
@@ -65,6 +71,7 @@ class SteadyRepository(
             putString("medications_note", p.medicationsNote)
             putBoolean("hc_enabled", p.isHealthConnectEnabled)
             putString("preferred_steps_source", p.preferredStepsSource)
+            putString("preferred_sleep_source", p.preferredSleepSource)
             putLong("last_sync_timestamp", p.lastSyncTimestamp)
             putBoolean("adaptive_enabled", p.isAdaptiveLearningEnabled)
             putString("update_check_url", p.updateCheckUrl)

@@ -43,18 +43,24 @@ object AdaptiveEngine {
             )
         }
 
-        // 3. Evening Dinner Takeout friction reduction
-        val dinnerNotes = recentEntries.mapNotNull { it.dinnerText }
-        val homeCookedMentions = dinnerNotes.count {
-            it.contains("egg", ignoreCase = true) || it.contains("paneer", ignoreCase = true) || it.contains("roti", ignoreCase = true)
+        // 3. Evening Dinner Takeout friction reduction based on EXPLICIT user recording
+        val recordedDinners = recentEntries.filter { it.isDinnerHomeCooked != null || !it.dinnerText.isNullOrBlank() }
+        val takeoutCount = recordedDinners.count { entry ->
+            when {
+                entry.isDinnerHomeCooked != null -> entry.isDinnerHomeCooked == false
+                else -> {
+                    val text = entry.dinnerText?.lowercase() ?: ""
+                    text.contains("order") || text.contains("swiggy") || text.contains("zomato") || text.contains("takeout") || text.contains("restaurant")
+                }
+            }
         }
-        if (dinnerNotes.size >= 4 && homeCookedMentions <= 1) {
+        if (recordedDinners.size >= 4 && takeoutCount >= 3) {
             adaptiveDao.upsertSuggestion(
                 AdaptiveSuggestion(
                     id = "dinner_friction_helper",
                     title = "Dinner Preparation Reminder",
-                    rationale = "Multiple recent dinners were takeout. Ordering frequently increases sodium and hidden cooking oils, affecting fluid balance and BP.",
-                    proposedAction = "Set an early 7:15 PM dinner reminder with 15-minute Egg Bhurji or Paneer presets.",
+                    rationale = "$takeoutCount of your last ${recordedDinners.size} recorded dinners were ordered takeout. Restaurant meals carry higher hidden sodium and cooking fats, affecting fluid retention and BP.",
+                    proposedAction = "Set an early 7:15 PM dinner reminder with 15-minute quick Egg Bhurji or Paneer presets.",
                     category = "NUTRITION"
                 )
             )

@@ -1,6 +1,6 @@
 {
-  "versionCode": 5,
-  "versionName": "2.0.3",
-  "releaseNotes": "Calibrated Americano cups to 80 mL (standard 80 mL, medium 120 mL, double 160 mL, mug 200 mL) with 1-tap drinks logger, home strength workouts, and Health Connect sync.",
-  "downloadUrl": "https://github.com/lycanthropekj/kj-steady/releases/download/v2.0.3/KJ-Steady-v2.0.3.apk"
+  "versionCode": 6,
+  "versionName": "2.0.4",
+  "releaseNotes": "Security: Removed keystore from public git/zips; Health Connect: step source filtering and interval-union sleep de-overlap; Updater: verified lycanthropekj defaults with auto-migration; Dinner: explicit Home-Cooked vs Takeout recording.",
+  "downloadUrl": "https://github.com/lycanthropekj/kj-steady/releases/download/v2.0.4/KJ-Steady-v2.0.4.apk"
 }

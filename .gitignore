@@ -11,7 +11,8 @@ build/
 **/.idea/
 *.iml
 **/*.iml
-/local.properties
+local.properties
+**/local.properties
 .DS_Store
 
 # Android binaries and outputs
@@ -26,3 +27,9 @@ build/
 captures/
 .externalNativeBuild/
 .cxx/
+
+# Keystores and private signing credentials
+*.jks
+*.keystore
+signing/
+**/signing/

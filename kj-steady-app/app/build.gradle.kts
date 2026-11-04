@@ -1,9 +1,30 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
     id("com.google.devtools.ksp")
 }
+
+val localProperties = Properties().apply {
+    val propFile = rootProject.file("local.properties")
+    if (propFile.exists()) {
+        propFile.inputStream().use { load(it) }
+    }
+}
+val ksPath = localProperties.getProperty("RELEASE_KEYSTORE_PATH")
+    ?: System.getenv("RELEASE_KEYSTORE_PATH")
+    ?: "../signing/kj-steady.jks"
+val ksPass = localProperties.getProperty("RELEASE_KEYSTORE_PASSWORD")
+    ?: System.getenv("RELEASE_KEYSTORE_PASSWORD")
+    ?: "android"
+val ksAlias = localProperties.getProperty("RELEASE_KEY_ALIAS")
+    ?: System.getenv("RELEASE_KEY_ALIAS")
+    ?: "kj-steady"
+val ksKeyPass = localProperties.getProperty("RELEASE_KEY_PASSWORD")
+    ?: System.getenv("RELEASE_KEY_PASSWORD")
+    ?: "android"
 
 android {
     namespace = "com.kj.steady"
@@ -13,8 +34,8 @@ android {
         applicationId = "com.kj.steady"
         minSdk = 26
         targetSdk = 35
-        versionCode = 5
-        versionName = "2.0.3"
+        versionCode = 6
+        versionName = "2.0.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -24,13 +45,16 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("../signing/kj-steady.jks")
-            storePassword = "android"
-            keyAlias = "kj-steady"
-            keyPassword = "android"
-            enableV1Signing = true
-            enableV2Signing = true
-            enableV3Signing = true
+            val kFile = file(ksPath)
+            if (kFile.exists()) {
+                storeFile = kFile
+                storePassword = ksPass
+                keyAlias = ksAlias
+                keyPassword = ksKeyPass
+                enableV1Signing = true
+                enableV2Signing = true
+                enableV3Signing = true
+            }
         }
     }
 
@@ -41,10 +65,16 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("release")
+            val releaseSigning = signingConfigs.getByName("release")
+            if (releaseSigning.storeFile != null && releaseSigning.storeFile!!.exists()) {
+                signingConfig = releaseSigning
+            }
         }
         debug {
-            signingConfig = signingConfigs.getByName("release")
+            val releaseSigning = signingConfigs.getByName("release")
+            if (releaseSigning.storeFile != null && releaseSigning.storeFile!!.exists()) {
+                signingConfig = releaseSigning
+            }
         }
     }
 

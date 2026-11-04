@@ -327,7 +327,7 @@ fun SetupScreen(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Current Installed Version: v2.0.3 (Build 5)\n" +
+                    text = "Current Installed Version: v2.0.4 (Build 6)\n" +
                             "Direct 1-tap updates without Google Play delays, developer fees, or public review.",
                     fontSize = 12.sp,
                     lineHeight = 17.sp,

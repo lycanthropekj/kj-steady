@@ -48,7 +48,8 @@ data class UserPreferences(
     
     // Health Connect
     val isHealthConnectEnabled: Boolean = false,
-    val preferredStepsSource: String = "Samsung Health", // "Samsung Health", "Fitbit", "Manual"
+    val preferredStepsSource: String = "Samsung Health", // "Samsung Health", "Fitbit", "Auto (Highest Source)"
+    val preferredSleepSource: String = "Auto Merge", // "Auto Merge", "Samsung Health", "Fitbit"
     val lastSyncTimestamp: Long = 0L,
     
     // Adaptive Learning

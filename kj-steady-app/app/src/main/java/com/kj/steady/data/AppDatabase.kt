@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
         NotificationLog::class,
         AdaptiveSuggestion::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -36,6 +36,12 @@ abstract class AppDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
+        val MIGRATION_1_2 = object : androidx.room.migration.Migration(1, 2) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE daily_entries ADD COLUMN isDinnerHomeCooked INTEGER DEFAULT NULL")
+            }
+        }
+
         fun getDatabase(context: Context, scope: CoroutineScope): AppDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
@@ -43,6 +49,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "kj_steady.db"
                 )
+                    .addMigrations(MIGRATION_1_2)
                     .addCallback(AppDatabaseCallback(scope))
                     .build()
                 INSTANCE = instance
