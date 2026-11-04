@@ -1,0 +1,28 @@
+# Build and cache directories
+build/
+**/build/
+.gradle/
+**/.gradle/
+.kotlin/
+**/.kotlin/
+
+# IDE files
+.idea/
+**/.idea/
+*.iml
+**/*.iml
+/local.properties
+.DS_Store
+
+# Android binaries and outputs
+*.apk
+*.aab
+*.ap_
+*.dex
+*.class
+*.zip
+*.tar.gz
+*.hprof
+captures/
+.externalNativeBuild/
+.cxx/
