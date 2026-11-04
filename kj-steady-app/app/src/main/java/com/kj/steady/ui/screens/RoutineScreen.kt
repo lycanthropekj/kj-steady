@@ -1,5 +1,6 @@
 package com.kj.steady.ui.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,7 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kj.steady.logic.DateUtils
-import com.kj.steady.ui.theme.ForestGreen
+import com.kj.steady.ui.theme.*
 import com.kj.steady.ui.viewmodel.MainViewModel
 
 @Composable
@@ -78,7 +79,8 @@ fun RoutineScreen(
         // Quiet Hours Notice
         Card(
             shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+            colors = CardDefaults.cardColors(containerColor = SleepVioletLight),
+            border = BorderStroke(1.dp, SleepVioletBorder),
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(14.dp)) {
@@ -86,13 +88,13 @@ fun RoutineScreen(
                     text = "Quiet Hours: 10:30 PM – 5:45 AM",
                     fontWeight = FontWeight.Bold,
                     fontSize = 13.sp,
-                    color = ForestGreen
+                    color = SleepVioletDark
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = "Strict non-disruption guarantee. No reminders or alerts will sound during your sleep window, even if a schedule shift occurred.",
                     fontSize = 12.sp,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f)
+                    color = Slate600
                 )
             }
         }
@@ -103,6 +105,7 @@ fun RoutineScreen(
         Card(
             shape = RoundedCornerShape(20.dp),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            border = BorderStroke(1.dp, Slate200),
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(18.dp)) {
@@ -115,18 +118,19 @@ fun RoutineScreen(
                         text = "HOME STRENGTH & MUSCLE PRESERVATION",
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                        color = Slate500,
                         letterSpacing = 1.sp
                     )
                     Surface(
                         shape = RoundedCornerShape(8.dp),
-                        color = ForestGreen.copy(alpha = 0.1f)
+                        color = StepsOrangeLight,
+                        border = BorderStroke(1.dp, StepsOrangeBorder)
                     ) {
                         Text(
                             text = "2–3x / WEEK",
                             fontSize = 10.sp,
                             fontWeight = FontWeight.Bold,
-                            color = ForestGreen,
+                            color = StepsOrangeDark,
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                         )
                     }
@@ -269,9 +273,9 @@ private fun RoutineTimeRow(time: String, title: String, subtitle: String) {
             Text(title, fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
             Text(subtitle, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
         }
-        Text(time, fontSize = 12.sp, fontWeight = FontWeight.Bold, color = ForestGreen)
+        Text(time, fontSize = 12.sp, fontWeight = FontWeight.Bold, color = BrandBlue)
     }
-    HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
+    HorizontalDivider(color = Slate200)
 }
 
 @Composable

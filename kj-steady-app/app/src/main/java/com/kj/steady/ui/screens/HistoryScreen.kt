@@ -1,5 +1,6 @@
 package com.kj.steady.ui.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -11,13 +12,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kj.steady.data.model.DailyEntry
 import com.kj.steady.logic.DateUtils
-import com.kj.steady.ui.theme.ForestGreen
-import com.kj.steady.ui.theme.RestrainedLime
+import com.kj.steady.ui.theme.*
 import com.kj.steady.ui.viewmodel.MainViewModel
 
 @Composable
@@ -39,12 +40,13 @@ fun HistoryScreen(
             Text(
                 text = "History & Timeline",
                 style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = Slate900
             )
             Text(
                 text = "Your record. Tap Edit to update any day.",
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
+                color = Slate500
             )
             Spacer(modifier = Modifier.height(14.dp))
         }
@@ -60,7 +62,7 @@ fun HistoryScreen(
 
                 Card(
                     shape = RoundedCornerShape(20.dp),
-                    colors = CardDefaults.cardColors(containerColor = ForestGreen),
+                    colors = CardDefaults.cardColors(containerColor = HeroMidnight),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Column(modifier = Modifier.padding(18.dp)) {
@@ -68,7 +70,7 @@ fun HistoryScreen(
                             text = "LAST 7 LOGGED DAYS AGGREGATE",
                             fontSize = 10.sp,
                             fontWeight = FontWeight.Bold,
-                            color = RestrainedLime,
+                            color = HeroCyan,
                             letterSpacing = 1.sp
                         )
                         Spacer(modifier = Modifier.height(10.dp))
@@ -77,39 +79,39 @@ fun HistoryScreen(
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Column {
-                                Text("AVG WEIGHT", fontSize = 10.sp, color = androidx.compose.ui.graphics.Color.White.copy(alpha = 0.7f))
+                                Text("AVG WEIGHT", fontSize = 10.sp, color = Color.White.copy(alpha = 0.7f))
                                 Text(
                                     text = avgWeight?.let { "%.1f kg".format(it) } ?: "—",
                                     fontSize = 18.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = androidx.compose.ui.graphics.Color.White
+                                    color = Color.White
                                 )
                             }
                             Column {
-                                Text("AVG STEPS", fontSize = 10.sp, color = androidx.compose.ui.graphics.Color.White.copy(alpha = 0.7f))
+                                Text("AVG STEPS", fontSize = 10.sp, color = Color.White.copy(alpha = 0.7f))
                                 Text(
                                     text = avgSteps?.let { "%,.0f".format(it) } ?: "—",
                                     fontSize = 18.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = androidx.compose.ui.graphics.Color.White
+                                    color = Color(0xFFFB923C)
                                 )
                             }
                             Column {
-                                Text("AVG SLEEP", fontSize = 10.sp, color = androidx.compose.ui.graphics.Color.White.copy(alpha = 0.7f))
+                                Text("AVG SLEEP", fontSize = 10.sp, color = Color.White.copy(alpha = 0.7f))
                                 Text(
                                     text = avgSleep?.let { "%.1f h".format(it) } ?: "—",
                                     fontSize = 18.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = androidx.compose.ui.graphics.Color.White
+                                    color = Color(0xFFC084FC)
                                 )
                             }
                             Column {
-                                Text("ALCOHOL", fontSize = 10.sp, color = androidx.compose.ui.graphics.Color.White.copy(alpha = 0.7f))
+                                Text("ALCOHOL", fontSize = 10.sp, color = Color.White.copy(alpha = 0.7f))
                                 Text(
                                     text = "$alcoholDays d",
                                     fontSize = 18.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = if (alcoholDays > 0) RestrainedLime else androidx.compose.ui.graphics.Color.White
+                                    color = if (alcoholDays > 0) Color(0xFFFB7185) else Color(0xFF4ADE80)
                                 )
                             }
                         }
@@ -130,7 +132,7 @@ fun HistoryScreen(
                     Text(
                         text = "Nothing logged yet.\nYour first entry will appear here.",
                         textAlign = androidx.compose.ui.text.style.TextAlign.Center,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                        color = Slate500,
                         lineHeight = 22.sp
                     )
                 }
@@ -140,6 +142,7 @@ fun HistoryScreen(
                 Card(
                     shape = RoundedCornerShape(16.dp),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                    border = BorderStroke(1.dp, Slate200),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 6.dp)
@@ -153,7 +156,8 @@ fun HistoryScreen(
                             Text(
                                 text = DateUtils.formatDisplay(entry.date),
                                 fontSize = 15.sp,
-                                fontWeight = FontWeight.Bold
+                                fontWeight = FontWeight.Bold,
+                                color = Slate900
                             )
 
                             Row {
@@ -161,58 +165,149 @@ fun HistoryScreen(
                                     onClick = { onNavigateToEdit(entry.date) },
                                     modifier = Modifier.size(32.dp)
                                 ) {
-                                    Icon(Icons.Default.Edit, contentDescription = "Edit", tint = ForestGreen, modifier = Modifier.size(18.dp))
+                                    Icon(Icons.Default.Edit, contentDescription = "Edit", tint = BrandBlue, modifier = Modifier.size(18.dp))
                                 }
                                 IconButton(
                                     onClick = { entryToDelete = entry },
                                     modifier = Modifier.size(32.dp)
                                 ) {
-                                    Icon(Icons.Default.Delete, contentDescription = "Delete", tint = MaterialTheme.colorScheme.error.copy(alpha = 0.6f), modifier = Modifier.size(18.dp))
+                                    Icon(Icons.Default.Delete, contentDescription = "Delete", tint = MaterialTheme.colorScheme.error.copy(alpha = 0.7f), modifier = Modifier.size(18.dp))
                                 }
                             }
                         }
 
                         // Summary metric chips
-                        val metricParts = mutableListOf<String>()
-                        entry.morningWeight?.let { metricParts.add("%.1f kg".format(it)) }
-                        entry.totalSteps?.let { metricParts.add("%,d steps".format(it)) }
-                        entry.sleepHours?.let { metricParts.add("%.1f h sleep".format(it)) }
-                        entry.cigarettes?.let { if (it > 0) metricParts.add("$it cigs") }
-                        if (entry.hadAlcohol) metricParts.add("Alcohol logged")
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 6.dp),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            entry.morningWeight?.let { w ->
+                                Surface(
+                                    shape = RoundedCornerShape(8.dp),
+                                    color = BrandBlueLight,
+                                    border = BorderStroke(1.dp, BrandBlueBorder)
+                                ) {
+                                    Text(
+                                        text = "%.1f kg".format(w),
+                                        fontSize = 11.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = BrandBlueDark,
+                                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                                    )
+                                }
+                            }
+                            entry.totalSteps?.let { s ->
+                                Surface(
+                                    shape = RoundedCornerShape(8.dp),
+                                    color = StepsOrangeLight,
+                                    border = BorderStroke(1.dp, StepsOrangeBorder)
+                                ) {
+                                    Text(
+                                        text = "%,d steps".format(s),
+                                        fontSize = 11.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = StepsOrangeDark,
+                                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                                    )
+                                }
+                            }
+                            entry.sleepHours?.let { sl ->
+                                Surface(
+                                    shape = RoundedCornerShape(8.dp),
+                                    color = SleepVioletLight,
+                                    border = BorderStroke(1.dp, SleepVioletBorder)
+                                ) {
+                                    Text(
+                                        text = "%.1f h sleep".format(sl),
+                                        fontSize = 11.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = SleepVioletDark,
+                                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                                    )
+                                }
+                            }
+                            entry.cigarettes?.let { c ->
+                                if (c > 0) {
+                                    Surface(
+                                        shape = RoundedCornerShape(8.dp),
+                                        color = AmberWarning,
+                                        border = BorderStroke(1.dp, AmberBorder)
+                                    ) {
+                                        Text(
+                                            text = "$c cigs",
+                                            fontSize = 11.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            color = AmberText,
+                                            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                                        )
+                                    }
+                                }
+                            }
+                            if (entry.hadAlcohol) {
+                                Surface(
+                                    shape = RoundedCornerShape(8.dp),
+                                    color = HeartRoseLight,
+                                    border = BorderStroke(1.dp, HeartRoseBorder)
+                                ) {
+                                    Text(
+                                        text = "🍷 Alcohol",
+                                        fontSize = 11.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = HeartRose,
+                                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                                    )
+                                }
+                            }
+                        }
 
-                        if (metricParts.isNotEmpty()) {
-                            Spacer(modifier = Modifier.height(4.dp))
-                            Text(
-                                text = metricParts.joinToString(" • "),
-                                fontSize = 13.sp,
-                                fontWeight = FontWeight.Medium,
-                                color = ForestGreen
-                            )
+                        // Dinner status tag if specified
+                        entry.isDinnerHomeCooked?.let { isHome ->
+                            val tagText = if (isHome) "🍳 Home Cooked Dinner" else "🥡 Ordered / Takeout Dinner"
+                            val tagBg = if (isHome) NutritionEmeraldLight else TakeawayCoralLight
+                            val tagBorder = if (isHome) NutritionEmeraldBorder else StepsOrangeBorder
+                            val tagColor = if (isHome) NutritionEmeraldDark else TakeawayCoral
+
+                            Surface(
+                                shape = RoundedCornerShape(6.dp),
+                                color = tagBg,
+                                border = BorderStroke(1.dp, tagBorder),
+                                modifier = Modifier.padding(vertical = 2.dp)
+                            ) {
+                                Text(
+                                    text = tagText,
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = tagColor,
+                                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                                )
+                            }
                         }
 
                         // Meals and notes
                         entry.breakfastText?.let {
                             Spacer(modifier = Modifier.height(4.dp))
-                            Text(text = "Breakfast: $it", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f))
+                            Text(text = "Breakfast: $it", fontSize = 12.sp, color = Slate600)
                         }
                         entry.lunchSnacksText?.let {
                             Spacer(modifier = Modifier.height(2.dp))
-                            Text(text = "Lunch/Snacks: $it", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f))
+                            Text(text = "Lunch/Snacks: $it", fontSize = 12.sp, color = Slate600)
                         }
                         entry.dinnerText?.let {
                             Spacer(modifier = Modifier.height(2.dp))
-                            Text(text = "Dinner: $it", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f))
+                            Text(text = "Dinner: $it", fontSize = 12.sp, color = Slate600)
                         }
                         entry.notes?.let {
                             Spacer(modifier = Modifier.height(2.dp))
-                            Text(text = "Notes: $it", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
+                            Text(text = "Notes: $it", fontSize = 12.sp, color = Slate500)
                         }
 
                         Spacer(modifier = Modifier.height(6.dp))
                         Text(
                             text = "Source: ${entry.sourceAttribution}",
                             fontSize = 10.sp,
-                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
+                            color = Slate400
                         )
                     }
                 }

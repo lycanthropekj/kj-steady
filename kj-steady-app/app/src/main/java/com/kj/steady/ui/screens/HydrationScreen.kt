@@ -1,13 +1,10 @@
 package com.kj.steady.ui.screens
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,8 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kj.steady.logic.DateUtils
 import com.kj.steady.ui.components.ClinicalNoticeCard
-import com.kj.steady.ui.theme.ForestGreen
-import com.kj.steady.ui.theme.RestrainedLime
+import com.kj.steady.ui.theme.*
 import com.kj.steady.ui.viewmodel.MainViewModel
 
 @Composable
@@ -28,12 +24,11 @@ fun HydrationScreen(
     viewModel: MainViewModel,
     modifier: Modifier = Modifier
 ) {
-    val selectedDate by viewModel.selectedDate.collectAsState()
     val hydrationStatus by viewModel.currentHydrationStatus.collectAsState()
     val hydrationLogs by viewModel.currentHydrationLogs.collectAsState()
     val userPrefs by viewModel.userPreferences.collectAsState()
 
-    var selectedBeverage by remember { mutableStateOf("WATER") }
+    var selectedBeverage by remember { mutableStateOf("WATER") } // WATER, TEA_COFFEE, ELECTROLYTES
 
     Column(
         modifier = modifier
@@ -48,28 +43,28 @@ fun HydrationScreen(
         ) {
             Column {
                 Text(
-                    text = "Hydration",
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Bold
+                    text = "HYDRATION & FLUIDS",
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = WaterBlue,
+                    letterSpacing = 1.5.sp
                 )
                 Text(
-                    text = "Daily dilution pacing for kidney stone prevention",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
+                    text = "Kidney Health Pacing",
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = Slate900
                 )
-            }
-
-            IconButton(onClick = { viewModel.undoHydration() }) {
-                Icon(Icons.Default.Refresh, contentDescription = "Undo drink", tint = ForestGreen)
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(14.dp))
 
-        // Hero Meter Card
+        // Big Intake Display Card
         Card(
             shape = RoundedCornerShape(24.dp),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            border = BorderStroke(1.dp, Slate200),
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(
@@ -80,7 +75,7 @@ fun HydrationScreen(
                     text = "TODAY'S INTAKE",
                     fontSize = 11.sp,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                    color = Slate500,
                     letterSpacing = 1.sp
                 )
 
@@ -92,13 +87,13 @@ fun HydrationScreen(
                         fontSize = 48.sp,
                         fontWeight = FontWeight.Bold,
                         letterSpacing = (-1.5).sp,
-                        color = ForestGreen
+                        color = WaterBlue
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
                         text = "/ %,d mL".format(userPrefs.dailyHydrationGoalMl),
                         fontSize = 18.sp,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                        color = Slate500,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
                 }
@@ -112,8 +107,8 @@ fun HydrationScreen(
                         .fillMaxWidth()
                         .height(8.dp)
                         .clip(RoundedCornerShape(4.dp)),
-                    color = ForestGreen,
-                    trackColor = ForestGreen.copy(alpha = 0.15f)
+                    color = WaterBlue,
+                    trackColor = WaterBlueLight
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -122,7 +117,7 @@ fun HydrationScreen(
                     text = "${hydrationStatus.progressPercent.toInt()}% of daily hydration target",
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Medium,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                    color = Slate600
                 )
             }
         }
@@ -139,6 +134,7 @@ fun HydrationScreen(
         Card(
             shape = RoundedCornerShape(20.dp),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            border = BorderStroke(1.dp, Slate200),
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(18.dp)) {
@@ -146,7 +142,7 @@ fun HydrationScreen(
                     text = "ONE-TAP LOGGING",
                     fontSize = 11.sp,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                    color = Slate500,
                     letterSpacing = 1.sp
                 )
 
@@ -159,17 +155,44 @@ fun HydrationScreen(
                     FilterChip(
                         selected = selectedBeverage == "WATER",
                         onClick = { selectedBeverage = "WATER" },
-                        label = { Text("Plain Water") }
+                        label = { Text("💧 Plain Water") },
+                        colors = FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = WaterBlueLight,
+                            selectedLabelColor = WaterBlueDark
+                        ),
+                        border = FilterChipDefaults.filterChipBorder(
+                            enabled = true,
+                            selected = selectedBeverage == "WATER",
+                            borderColor = if (selectedBeverage == "WATER") WaterBlueBorder else Slate200
+                        )
                     )
                     FilterChip(
                         selected = selectedBeverage == "TEA_COFFEE",
                         onClick = { selectedBeverage = "TEA_COFFEE" },
-                        label = { Text("Americano / Tea") }
+                        label = { Text("☕ Americano / Tea") },
+                        colors = FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = CoffeeChestnutLight,
+                            selectedLabelColor = CoffeeChestnut
+                        ),
+                        border = FilterChipDefaults.filterChipBorder(
+                            enabled = true,
+                            selected = selectedBeverage == "TEA_COFFEE",
+                            borderColor = if (selectedBeverage == "TEA_COFFEE") CoffeeChestnutBorder else Slate200
+                        )
                     )
                     FilterChip(
                         selected = selectedBeverage == "ELECTROLYTES",
                         onClick = { selectedBeverage = "ELECTROLYTES" },
-                        label = { Text("Electrolytes") }
+                        label = { Text("⚡ Electrolytes") },
+                        colors = FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = Color(0xFFCCFBF1),
+                            selectedLabelColor = Color(0xFF0F766E)
+                        ),
+                        border = FilterChipDefaults.filterChipBorder(
+                            enabled = true,
+                            selected = selectedBeverage == "ELECTROLYTES",
+                            borderColor = if (selectedBeverage == "ELECTROLYTES") Color(0xFF5EEAD4) else Slate200
+                        )
                     )
                 }
 
@@ -196,31 +219,42 @@ fun HydrationScreen(
                     )
                 }
 
+                val buttonColor = when (selectedBeverage) {
+                    "TEA_COFFEE" -> CoffeeChestnut
+                    "ELECTROLYTES" -> Color(0xFF0D9488)
+                    else -> WaterBlue
+                }
+                val subtitleColor = when (selectedBeverage) {
+                    "TEA_COFFEE" -> CoffeeChestnutLight
+                    "ELECTROLYTES" -> Color(0xFFCCFBF1)
+                    else -> WaterBlueLight
+                }
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     Button(
                         onClick = { viewModel.addHydration(vesselButtons[0].first, selectedBeverage, "${vesselButtons[0].second} ${vesselButtons[0].third}") },
-                        colors = ButtonDefaults.buttonColors(containerColor = ForestGreen, contentColor = Color.White),
+                        colors = ButtonDefaults.buttonColors(containerColor = buttonColor, contentColor = Color.White),
                         shape = RoundedCornerShape(12.dp),
                         modifier = Modifier.weight(1f).height(62.dp)
                     ) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text("+${vesselButtons[0].third}", fontWeight = FontWeight.Bold, fontSize = 14.sp)
-                            Text(vesselButtons[0].second, fontSize = 10.sp, color = RestrainedLime)
+                            Text(vesselButtons[0].second, fontSize = 10.sp, color = subtitleColor)
                         }
                     }
 
                     Button(
                         onClick = { viewModel.addHydration(vesselButtons[1].first, selectedBeverage, "${vesselButtons[1].second} ${vesselButtons[1].third}") },
-                        colors = ButtonDefaults.buttonColors(containerColor = ForestGreen, contentColor = Color.White),
+                        colors = ButtonDefaults.buttonColors(containerColor = buttonColor, contentColor = Color.White),
                         shape = RoundedCornerShape(12.dp),
                         modifier = Modifier.weight(1f).height(62.dp)
                     ) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text("+${vesselButtons[1].third}", fontWeight = FontWeight.Bold, fontSize = 14.sp)
-                            Text(vesselButtons[1].second, fontSize = 10.sp, color = RestrainedLime)
+                            Text(vesselButtons[1].second, fontSize = 10.sp, color = subtitleColor)
                         }
                     }
                 }
@@ -233,25 +267,25 @@ fun HydrationScreen(
                 ) {
                     Button(
                         onClick = { viewModel.addHydration(vesselButtons[2].first, selectedBeverage, "${vesselButtons[2].second} ${vesselButtons[2].third}") },
-                        colors = ButtonDefaults.buttonColors(containerColor = ForestGreen, contentColor = Color.White),
+                        colors = ButtonDefaults.buttonColors(containerColor = buttonColor, contentColor = Color.White),
                         shape = RoundedCornerShape(12.dp),
                         modifier = Modifier.weight(1f).height(62.dp)
                     ) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text("+${vesselButtons[2].third}", fontWeight = FontWeight.Bold, fontSize = 14.sp)
-                            Text(vesselButtons[2].second, fontSize = 10.sp, color = RestrainedLime)
+                            Text(vesselButtons[2].second, fontSize = 10.sp, color = subtitleColor)
                         }
                     }
 
                     Button(
                         onClick = { viewModel.addHydration(vesselButtons[3].first, selectedBeverage, "${vesselButtons[3].second} ${vesselButtons[3].third}") },
-                        colors = ButtonDefaults.buttonColors(containerColor = ForestGreen, contentColor = Color.White),
+                        colors = ButtonDefaults.buttonColors(containerColor = buttonColor, contentColor = Color.White),
                         shape = RoundedCornerShape(12.dp),
                         modifier = Modifier.weight(1f).height(62.dp)
                     ) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text("+${vesselButtons[3].third}", fontWeight = FontWeight.Bold, fontSize = 14.sp)
-                            Text(vesselButtons[3].second, fontSize = 10.sp, color = RestrainedLime)
+                            Text(vesselButtons[3].second, fontSize = 10.sp, color = subtitleColor)
                         }
                     }
                 }
@@ -263,15 +297,16 @@ fun HydrationScreen(
         // Clinical Context Card
         Card(
             shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+            colors = CardDefaults.cardColors(containerColor = Slate100),
+            border = BorderStroke(1.dp, Slate200),
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
                     text = "Kidney Stone Clinical Protocol",
-                    fontWeight = FontWeight.SemiBold,
+                    fontWeight = FontWeight.Bold,
                     fontSize = 13.sp,
-                    color = ForestGreen
+                    color = WaterBlueDark
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
@@ -281,7 +316,7 @@ fun HydrationScreen(
                             "• Dietary Calcium: Curd or milk at meals binds dietary oxalates in the gut.",
                     fontSize = 12.sp,
                     lineHeight = 18.sp,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f)
+                    color = Slate600
                 )
             }
         }
@@ -292,7 +327,8 @@ fun HydrationScreen(
         Text(
             text = "Today's Drink Log (${hydrationLogs.size})",
             style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.SemiBold
+            fontWeight = FontWeight.SemiBold,
+            color = Slate900
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -301,32 +337,46 @@ fun HydrationScreen(
             Text(
                 text = "No drinks logged yet today.",
                 fontSize = 12.sp,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                color = Slate500,
                 modifier = Modifier.padding(vertical = 8.dp)
             )
         } else {
             hydrationLogs.forEach { log ->
+                val badgeColor = when (log.beverageType) {
+                    "TEA_COFFEE" -> CoffeeChestnut
+                    "ELECTROLYTES" -> Color(0xFF0D9488)
+                    else -> WaterBlue
+                }
+                val iconEmoji = when (log.beverageType) {
+                    "TEA_COFFEE" -> "☕"
+                    "ELECTROLYTES" -> "⚡"
+                    else -> "💧"
+                }
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 4.dp),
+                        .padding(vertical = 6.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Column {
-                        Text(
-                            text = "${log.amountMl} mL • ${log.vesselLabel}",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Medium
-                        )
-                        Text(
-                            text = "${DateUtils.formatTime(log.timestampMillis)} • ${log.beverageType}",
-                            fontSize = 11.sp,
-                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
-                        )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(iconEmoji, fontSize = 16.sp, modifier = Modifier.padding(end = 8.dp))
+                        Column {
+                            Text(
+                                text = "${log.amountMl} mL • ${log.vesselLabel}",
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Medium,
+                                color = Slate900
+                            )
+                            Text(
+                                text = "${DateUtils.formatTime(log.timestampMillis)} • ${log.beverageType}",
+                                fontSize = 11.sp,
+                                color = Slate500
+                            )
+                        }
                     }
                 }
-                HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f))
+                HorizontalDivider(color = Slate200)
             }
         }
 

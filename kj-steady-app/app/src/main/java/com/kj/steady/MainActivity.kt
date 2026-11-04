@@ -18,10 +18,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.*
 import com.kj.steady.ui.screens.*
-import com.kj.steady.ui.theme.ForestGreen
-import com.kj.steady.ui.theme.KJSteadyTheme
-import com.kj.steady.ui.theme.RestrainedLime
+import com.kj.steady.ui.theme.*
 import com.kj.steady.ui.viewmodel.MainViewModel
+import androidx.compose.ui.text.font.FontWeight
 import kotlinx.coroutines.flow.collectLatest
 
 sealed class Screen(val route: String, val title: String, val icon: ImageVector) {
@@ -69,36 +68,48 @@ class MainActivity : ComponentActivity() {
 
                 Scaffold(
                     bottomBar = {
-                        NavigationBar(
-                            containerColor = ForestGreen,
-                            contentColor = MaterialTheme.colorScheme.onPrimary
+                        Surface(
+                            shadowElevation = 8.dp,
+                            color = MaterialTheme.colorScheme.surface
                         ) {
-                            primaryNavItems.forEach { screen ->
-                                val selected = currentRoute == screen.route
-                                NavigationBarItem(
-                                    selected = selected,
-                                    onClick = {
-                                        if (currentRoute != screen.route) {
-                                            navController.navigate(screen.route) {
-                                                popUpTo(navController.graph.findStartDestination().id) {
-                                                    saveState = true
+                            NavigationBar(
+                                containerColor = MaterialTheme.colorScheme.surface,
+                                contentColor = MaterialTheme.colorScheme.onSurface,
+                                tonalElevation = 0.dp
+                            ) {
+                                primaryNavItems.forEach { screen ->
+                                    val selected = currentRoute == screen.route
+                                    NavigationBarItem(
+                                        selected = selected,
+                                        onClick = {
+                                            if (currentRoute != screen.route) {
+                                                navController.navigate(screen.route) {
+                                                    popUpTo(navController.graph.findStartDestination().id) {
+                                                        saveState = true
+                                                    }
+                                                    launchSingleTop = true
+                                                    restoreState = true
                                                 }
-                                                launchSingleTop = true
-                                                restoreState = true
                                             }
-                                        }
-                                    },
-                                    icon = { Icon(screen.icon, contentDescription = screen.title) },
-                                    label = { Text(screen.title, fontSize = 10.sp) },
-                                    alwaysShowLabel = false,
-                                    colors = NavigationBarItemDefaults.colors(
-                                        selectedIconColor = ForestGreen,
-                                        selectedTextColor = RestrainedLime,
-                                        indicatorColor = RestrainedLime,
-                                        unselectedIconColor = androidx.compose.ui.graphics.Color.White.copy(alpha = 0.7f),
-                                        unselectedTextColor = androidx.compose.ui.graphics.Color.White.copy(alpha = 0.7f)
+                                        },
+                                        icon = { Icon(screen.icon, contentDescription = screen.title) },
+                                        label = {
+                                            Text(
+                                                screen.title,
+                                                fontSize = 10.sp,
+                                                fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal
+                                            )
+                                        },
+                                        alwaysShowLabel = false,
+                                        colors = NavigationBarItemDefaults.colors(
+                                            selectedIconColor = BrandBlue,
+                                            selectedTextColor = BrandBlue,
+                                            indicatorColor = BrandBlueLight,
+                                            unselectedIconColor = Slate400,
+                                            unselectedTextColor = Slate500
+                                        )
                                     )
-                                )
+                                }
                             }
                         }
                     }

@@ -1,5 +1,6 @@
 package com.kj.steady.ui.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -26,7 +27,7 @@ fun HeroWeightCard(
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = ForestGreen)
+        colors = CardDefaults.cardColors(containerColor = HeroMidnight)
     ) {
         Column(
             modifier = Modifier.padding(22.dp)
@@ -36,7 +37,7 @@ fun HeroWeightCard(
                 fontSize = 11.sp,
                 fontWeight = FontWeight.Bold,
                 letterSpacing = 1.2.sp,
-                color = RestrainedLime.copy(alpha = 0.85f)
+                color = HeroCyan
             )
 
             Spacer(modifier = Modifier.height(6.dp))
@@ -53,7 +54,7 @@ fun HeroWeightCard(
                 Text(
                     text = "kg",
                     fontSize = 18.sp,
-                    color = Color.White.copy(alpha = 0.7f),
+                    color = Color.White.copy(alpha = 0.75f),
                     modifier = Modifier.padding(bottom = 10.dp)
                 )
             }
@@ -75,7 +76,7 @@ fun HeroWeightCard(
                     .fillMaxWidth()
                     .height(6.dp)
                     .clip(RoundedCornerShape(3.dp))
-                    .background(Color.White.copy(alpha = 0.2f))
+                    .background(Color.White.copy(alpha = 0.15f))
             ) {
                 val progressFraction = (summary.progressPercent / 100.0).toFloat().coerceIn(0f, 1f)
                 if (progressFraction > 0f) {
@@ -84,7 +85,7 @@ fun HeroWeightCard(
                             .fillMaxWidth(progressFraction)
                             .fillMaxHeight()
                             .clip(RoundedCornerShape(3.dp))
-                            .background(RestrainedLime)
+                            .background(HeroCyan)
                     )
                 }
             }
@@ -127,7 +128,7 @@ fun HeroWeightCard(
                         text = "%.0f kg".format(goalWeight),
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
-                        color = RestrainedLime
+                        color = HeroCyan
                     )
                 }
             }
@@ -145,14 +146,15 @@ fun StatMetricCard(
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        border = BorderStroke(1.dp, Slate200)
     ) {
         Column(modifier = Modifier.padding(18.dp)) {
             Text(
                 text = label.uppercase(),
                 fontSize = 11.sp,
                 fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                color = Slate500,
                 letterSpacing = 1.sp
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -160,13 +162,13 @@ fun StatMetricCard(
                 text = value,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
+                color = Slate900
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = subtitle,
                 fontSize = 12.sp,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                color = Slate500
             )
         }
     }
@@ -180,7 +182,8 @@ fun ClinicalNoticeCard(
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = AmberWarning)
+        colors = CardDefaults.cardColors(containerColor = AmberWarning),
+        border = BorderStroke(1.dp, AmberBorder)
     ) {
         Row(
             modifier = Modifier.padding(14.dp),

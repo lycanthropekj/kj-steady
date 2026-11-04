@@ -1,5 +1,6 @@
 package com.kj.steady.ui.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -20,9 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kj.steady.data.model.DailyEntry
 import com.kj.steady.logic.DateUtils
-import com.kj.steady.ui.theme.ForestGreen
-import com.kj.steady.ui.theme.LimeDark
-import com.kj.steady.ui.theme.RestrainedLime
+import com.kj.steady.ui.theme.*
 import kotlin.math.max
 import kotlin.math.min
 
@@ -58,7 +57,8 @@ fun WeightTrendChart(
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        border = BorderStroke(1.dp, Slate200)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(
@@ -69,7 +69,8 @@ fun WeightTrendChart(
                 Text(
                     text = "Weight Trend",
                     style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.SemiBold,
+                    color = Slate900
                 )
 
                 // Range Selector Pills
@@ -78,7 +79,7 @@ fun WeightTrendChart(
                         val isSelected = range == selectedRange
                         Surface(
                             shape = RoundedCornerShape(12.dp),
-                            color = if (isSelected) ForestGreen else MaterialTheme.colorScheme.surfaceVariant,
+                            color = if (isSelected) BrandBlue else Slate100,
                             modifier = Modifier.height(28.dp),
                             onClick = {
                                 selectedRange = range
@@ -93,7 +94,7 @@ fun WeightTrendChart(
                                     text = range.label,
                                     fontSize = 11.sp,
                                     fontWeight = FontWeight.Medium,
-                                    color = if (isSelected) RestrainedLime else MaterialTheme.colorScheme.onSurface
+                                    color = if (isSelected) Color.White else Slate600
                                 )
                             }
                         }
@@ -113,7 +114,7 @@ fun WeightTrendChart(
                     Text(
                         text = "Your trend begins with your first morning weigh-in.",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                        color = Slate500
                     )
                 }
             } else {
@@ -130,7 +131,7 @@ fun WeightTrendChart(
                             text = "${DateUtils.formatDisplay(point.date)}: ${point.morningWeight} kg",
                             fontSize = 12.sp,
                             fontWeight = FontWeight.SemiBold,
-                            color = ForestGreen,
+                            color = BrandBlue,
                             modifier = Modifier.padding(bottom = 6.dp)
                         )
                     }
@@ -157,13 +158,13 @@ fun WeightTrendChart(
                     // Draw min and max reference lines
                     val lineStroke = Stroke(width = 1.dp.toPx(), pathEffect = PathEffect.dashPathEffect(floatArrayOf(8f, 8f)))
                     drawLine(
-                        color = Color.LightGray.copy(alpha = 0.5f),
+                        color = Slate300.copy(alpha = 0.5f),
                         start = Offset(0f, 10f),
                         end = Offset(width, 10f),
                         strokeWidth = 1.dp.toPx()
                     )
                     drawLine(
-                        color = Color.LightGray.copy(alpha = 0.5f),
+                        color = Slate300.copy(alpha = 0.5f),
                         start = Offset(0f, plotHeight),
                         end = Offset(width, plotHeight),
                         strokeWidth = 1.dp.toPx()
@@ -173,7 +174,7 @@ fun WeightTrendChart(
                     if (goalWeight in minW..maxW) {
                         val goalY = plotHeight - ((goalWeight - minW) / rangeW * plotHeight).toFloat()
                         drawLine(
-                            color = LimeDark,
+                            color = ProteinAmber,
                             start = Offset(0f, goalY),
                             end = Offset(width, goalY),
                             strokeWidth = 2.dp.toPx(),
@@ -198,14 +199,14 @@ fun WeightTrendChart(
                                 lineTo(points[i].x, points[i].y)
                             }
                         }
-                        drawPath(path = path, color = ForestGreen, style = Stroke(width = 3.dp.toPx()))
+                        drawPath(path = path, color = BrandBlue, style = Stroke(width = 3.dp.toPx()))
                     }
 
                     // Draw point dots
                     points.forEachIndexed { i, pt ->
                         val isSelected = i == selectedPointIndex
                         drawCircle(
-                            color = if (isSelected) RestrainedLime else ForestGreen,
+                            color = if (isSelected) HeroCyan else BrandBlue,
                             radius = if (isSelected) 6.dp.toPx() else 4.dp.toPx(),
                             center = pt
                         )
@@ -219,18 +220,18 @@ fun WeightTrendChart(
                     Text(
                         text = DateUtils.formatShort(filteredEntries.first().date),
                         fontSize = 11.sp,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                        color = Slate500
                     )
                     Text(
                         text = "Goal: ${goalWeight.toInt()} kg (dashed)",
                         fontSize = 11.sp,
-                        color = LimeDark,
+                        color = ProteinAmber,
                         fontWeight = FontWeight.Medium
                     )
                     Text(
                         text = DateUtils.formatShort(filteredEntries.last().date),
                         fontSize = 11.sp,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                        color = Slate500
                     )
                 }
             }

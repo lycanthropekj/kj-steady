@@ -21,8 +21,7 @@ import androidx.compose.ui.unit.sp
 import com.kj.steady.data.model.DailyEntry
 import com.kj.steady.logic.BloodPressureEvaluator
 import com.kj.steady.logic.DateUtils
-import com.kj.steady.ui.theme.ForestGreen
-import com.kj.steady.ui.theme.RestrainedLime
+import com.kj.steady.ui.theme.*
 import com.kj.steady.ui.viewmodel.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -176,7 +175,7 @@ fun DailyLogScreen(
 
                     Button(
                         onClick = { viewModel.syncHealthConnect() },
-                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surfaceVariant, contentColor = ForestGreen),
+                        colors = ButtonDefaults.buttonColors(containerColor = BrandBlueLight, contentColor = BrandBlue),
                         shape = RoundedCornerShape(12.dp),
                         modifier = Modifier.weight(1f).height(54.dp)
                     ) {
@@ -216,7 +215,7 @@ fun DailyLogScreen(
                     }
 
                     IconButton(onClick = { showBpDialog = true }) {
-                        Icon(Icons.Default.Add, contentDescription = "Add BP Reading", tint = ForestGreen)
+                        Icon(Icons.Default.Add, contentDescription = "Add BP Reading", tint = HeartRose)
                     }
                 }
 
@@ -320,7 +319,8 @@ fun DailyLogScreen(
                             else "$current, 1 plain Americano (80 mL)"
                             viewModel.addHydration(80, "TEA_COFFEE", "Americano Cup 80 mL")
                         },
-                        label = { Text("+1 Americano (80 mL)", fontSize = 11.sp) }
+                        label = { Text("☕ +1 Americano (80 mL)", fontSize = 11.sp, color = CoffeeChestnut) },
+                        border = AssistChipDefaults.assistChipBorder(enabled = true, borderColor = CoffeeChestnutBorder)
                     )
                     AssistChip(
                         onClick = {
@@ -328,7 +328,8 @@ fun DailyLogScreen(
                             snacksText = if (current.isEmpty()) "Max Protein Strawberry Bar"
                             else "$current, Max Protein Strawberry Bar"
                         },
-                        label = { Text("+Max Protein Bar", fontSize = 11.sp) }
+                        label = { Text("⚡ +Max Protein Bar", fontSize = 11.sp, color = ProteinAmber) },
+                        border = AssistChipDefaults.assistChipBorder(enabled = true, borderColor = ProteinAmberBorder)
                     )
                 }
 
@@ -346,7 +347,7 @@ fun DailyLogScreen(
                             dinnerText = "Egg Bhurji (3 eggs) + 2 Phulkas + 100g Fresh Curd (~40g protein)"
                             isDinnerHomeCooked = true
                         }) {
-                            Text("Preset", fontSize = 11.sp)
+                            Text("Preset", fontSize = 11.sp, color = BrandBlue)
                         }
                     }
                 )
@@ -360,12 +361,30 @@ fun DailyLogScreen(
                     FilterChip(
                         selected = isDinnerHomeCooked == true,
                         onClick = { isDinnerHomeCooked = if (isDinnerHomeCooked == true) null else true },
-                        label = { Text("🍳 Home Cooked", fontSize = 11.sp) }
+                        label = { Text("🍳 Home Cooked", fontSize = 11.sp) },
+                        colors = FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = NutritionEmeraldLight,
+                            selectedLabelColor = NutritionEmeraldDark
+                        ),
+                        border = FilterChipDefaults.filterChipBorder(
+                            enabled = true,
+                            selected = isDinnerHomeCooked == true,
+                            borderColor = if (isDinnerHomeCooked == true) NutritionEmeraldBorder else Slate200
+                        )
                     )
                     FilterChip(
                         selected = isDinnerHomeCooked == false,
                         onClick = { isDinnerHomeCooked = if (isDinnerHomeCooked == false) null else false },
-                        label = { Text("🥡 Ordered / Takeout", fontSize = 11.sp) }
+                        label = { Text("🥡 Ordered / Takeout", fontSize = 11.sp) },
+                        colors = FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = TakeawayCoralLight,
+                            selectedLabelColor = TakeawayCoral
+                        ),
+                        border = FilterChipDefaults.filterChipBorder(
+                            enabled = true,
+                            selected = isDinnerHomeCooked == false,
+                            borderColor = if (isDinnerHomeCooked == false) TakeawayCoralLight else Slate200
+                        )
                     )
                 }
             }
@@ -472,7 +491,7 @@ fun DailyLogScreen(
                 )
                 viewModel.saveDailyEntry(entry)
             },
-            colors = ButtonDefaults.buttonColors(containerColor = RestrainedLime, contentColor = ForestGreen),
+            colors = ButtonDefaults.buttonColors(containerColor = BrandBlue, contentColor = Color.White),
             shape = MaterialTheme.shapes.medium,
             modifier = Modifier
                 .fillMaxWidth()

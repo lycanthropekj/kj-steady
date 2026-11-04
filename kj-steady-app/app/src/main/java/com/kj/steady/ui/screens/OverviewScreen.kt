@@ -1,11 +1,10 @@
 package com.kj.steady.ui.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -16,8 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kj.steady.logic.DateUtils
 import com.kj.steady.ui.components.*
-import com.kj.steady.ui.theme.ForestGreen
-import com.kj.steady.ui.theme.RestrainedLime
+import com.kj.steady.ui.theme.*
 import com.kj.steady.ui.viewmodel.MainViewModel
 
 @Composable
@@ -53,7 +51,8 @@ fun OverviewScreen(
         availableUpdate?.let { update ->
             Card(
                 shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(containerColor = RestrainedLime),
+                colors = CardDefaults.cardColors(containerColor = BrandBlueLight),
+                border = BorderStroke(1.dp, BrandBlueBorder),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 12.dp)
@@ -67,13 +66,13 @@ fun OverviewScreen(
                         Text(
                             text = "Update v${update.versionName} Available!",
                             fontWeight = FontWeight.Bold,
-                            color = ForestGreen,
+                            color = BrandBlueDark,
                             fontSize = 14.sp
                         )
                         Text(
                             text = update.releaseNotes,
                             fontSize = 11.sp,
-                            color = ForestGreen.copy(alpha = 0.85f),
+                            color = BrandBlueDark.copy(alpha = 0.85f),
                             lineHeight = 15.sp
                         )
                         if (downloadProgress != null) {
@@ -83,7 +82,7 @@ fun OverviewScreen(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(6.dp),
-                                color = ForestGreen,
+                                color = BrandBlue,
                                 trackColor = Color.White
                             )
                         }
@@ -91,7 +90,7 @@ fun OverviewScreen(
                     Spacer(modifier = Modifier.width(10.dp))
                     Button(
                         onClick = { viewModel.downloadAndInstallUpdate(context) },
-                        colors = ButtonDefaults.buttonColors(containerColor = ForestGreen),
+                        colors = ButtonDefaults.buttonColors(containerColor = BrandBlue, contentColor = Color.White),
                         shape = RoundedCornerShape(10.dp)
                     ) {
                         Text(
@@ -103,6 +102,7 @@ fun OverviewScreen(
                 }
             }
         }
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -113,7 +113,7 @@ fun OverviewScreen(
                     text = "OVERVIEW",
                     fontSize = 11.sp,
                     fontWeight = FontWeight.Bold,
-                    color = ForestGreen,
+                    color = BrandBlue,
                     letterSpacing = 1.5.sp
                 )
                 Text(
@@ -125,19 +125,20 @@ fun OverviewScreen(
                 Text(
                     text = DateUtils.formatDisplay(today),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
+                    color = Slate500
                 )
             }
 
             Surface(
                 shape = MaterialTheme.shapes.small,
-                color = ForestGreen.copy(alpha = 0.1f)
+                color = BrandBlueLight,
+                border = BorderStroke(1.dp, BrandBlueBorder)
             ) {
                 Text(
                     text = "OFFLINE · PRIVATE",
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Bold,
-                    color = ForestGreen,
+                    color = BrandBlue,
                     letterSpacing = 1.sp,
                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                 )
@@ -202,10 +203,11 @@ fun OverviewScreen(
             Text(
                 text = "Today's Status",
                 style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.SemiBold,
+                color = Slate900
             )
             TextButton(onClick = onNavigateToHealth) {
-                Text("Health Sync ⚙", fontSize = 12.sp, color = ForestGreen)
+                Text("Health Sync ⚙", fontSize = 12.sp, color = BrandBlue, fontWeight = FontWeight.SemiBold)
             }
         }
 
@@ -215,54 +217,93 @@ fun OverviewScreen(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
+            // Steps Card
             Surface(
-                shape = MaterialTheme.shapes.medium,
-                color = MaterialTheme.colorScheme.surface,
+                shape = RoundedCornerShape(16.dp),
+                color = StepsOrangeLight,
+                border = BorderStroke(1.dp, StepsOrangeBorder),
                 modifier = Modifier.weight(1f)
             ) {
                 Column(modifier = Modifier.padding(12.dp)) {
-                    Text("STEPS", fontSize = 10.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
+                    Text(
+                        text = "🏃 STEPS",
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = StepsOrange,
+                        letterSpacing = 0.5.sp
+                    )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = todayEntry?.totalSteps?.let { "%,d".format(it) } ?: "—",
                         fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = StepsOrangeDark
                     )
-                    Text("/ %,d".format(userPrefs.dailyStepGoal), fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                    Text(
+                        text = "/ %,d".format(userPrefs.dailyStepGoal),
+                        fontSize = 11.sp,
+                        color = StepsOrange.copy(alpha = 0.75f)
+                    )
                 }
             }
 
+            // Sleep Card
             Surface(
-                shape = MaterialTheme.shapes.medium,
-                color = MaterialTheme.colorScheme.surface,
+                shape = RoundedCornerShape(16.dp),
+                color = SleepVioletLight,
+                border = BorderStroke(1.dp, SleepVioletBorder),
                 modifier = Modifier.weight(1f)
             ) {
                 Column(modifier = Modifier.padding(12.dp)) {
-                    Text("SLEEP", fontSize = 10.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
+                    Text(
+                        text = "🌙 SLEEP",
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = SleepViolet,
+                        letterSpacing = 0.5.sp
+                    )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = todayEntry?.sleepHours?.let { "%.1f h".format(it) } ?: "—",
                         fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = SleepVioletDark
                     )
-                    Text("Goal: ${userPrefs.dailySleepGoalHours} h", fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                    Text(
+                        text = "Goal: ${userPrefs.dailySleepGoalHours} h",
+                        fontSize = 11.sp,
+                        color = SleepViolet.copy(alpha = 0.75f)
+                    )
                 }
             }
 
+            // Fluids Card
             Surface(
-                shape = MaterialTheme.shapes.medium,
-                color = MaterialTheme.colorScheme.surface,
+                shape = RoundedCornerShape(16.dp),
+                color = WaterBlueLight,
+                border = BorderStroke(1.dp, WaterBlueBorder),
                 modifier = Modifier.weight(1f)
             ) {
                 Column(modifier = Modifier.padding(12.dp)) {
-                    Text("FLUIDS", fontSize = 10.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
+                    Text(
+                        text = "💧 FLUIDS",
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = WaterBlue,
+                        letterSpacing = 0.5.sp
+                    )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = "${hydrationStatus.totalAmountMl} mL",
                         fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = WaterBlueDark
                     )
-                    Text("/ ${userPrefs.dailyHydrationGoalMl} mL", fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                    Text(
+                        text = "/ ${userPrefs.dailyHydrationGoalMl} mL",
+                        fontSize = 11.sp,
+                        color = WaterBlue.copy(alpha = 0.75f)
+                    )
                 }
             }
         }
@@ -272,7 +313,7 @@ fun OverviewScreen(
         // Log Today Button
         Button(
             onClick = { onNavigateToLog(today) },
-            colors = ButtonDefaults.buttonColors(containerColor = RestrainedLime, contentColor = ForestGreen),
+            colors = ButtonDefaults.buttonColors(containerColor = BrandBlue, contentColor = Color.White),
             shape = MaterialTheme.shapes.medium,
             modifier = Modifier
                 .fillMaxWidth()

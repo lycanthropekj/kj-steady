@@ -1,5 +1,6 @@
 package com.kj.steady.ui.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -8,11 +9,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.kj.steady.ui.theme.ForestGreen
-import com.kj.steady.ui.theme.RestrainedLime
+import com.kj.steady.ui.theme.*
 import com.kj.steady.ui.viewmodel.MainViewModel
 
 @Composable
@@ -52,7 +53,8 @@ fun AdaptationScreen(
         // Safeguards Banner
         Card(
             shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+            colors = CardDefaults.cardColors(containerColor = BrandBlueLight),
+            border = BorderStroke(1.dp, BrandBlueBorder),
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(14.dp)) {
@@ -60,7 +62,7 @@ fun AdaptationScreen(
                     text = "Rule Transparency & Safety Guarantee",
                     fontWeight = FontWeight.Bold,
                     fontSize = 13.sp,
-                    color = ForestGreen
+                    color = BrandBlueDark
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
@@ -113,13 +115,14 @@ fun AdaptationScreen(
                             )
                             Surface(
                                 shape = RoundedCornerShape(8.dp),
-                                color = ForestGreen.copy(alpha = 0.1f)
+                                color = BrandBlueLight,
+                                border = BorderStroke(1.dp, BrandBlueBorder)
                             ) {
                                 Text(
                                     text = suggestion.category,
                                     fontSize = 10.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = ForestGreen,
+                                    color = BrandBlue,
                                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                                 )
                             }
@@ -138,7 +141,7 @@ fun AdaptationScreen(
                             text = "Suggested Adaptation: ${suggestion.proposedAction}",
                             fontSize = 13.sp,
                             fontWeight = FontWeight.SemiBold,
-                            color = ForestGreen
+                            color = BrandBlueDark
                         )
 
                         Spacer(modifier = Modifier.height(12.dp))
@@ -150,7 +153,7 @@ fun AdaptationScreen(
                             ) {
                                 Button(
                                     onClick = { viewModel.approveAdaptiveSuggestion(suggestion.id) },
-                                    colors = ButtonDefaults.buttonColors(containerColor = ForestGreen),
+                                    colors = ButtonDefaults.buttonColors(containerColor = BrandBlue, contentColor = Color.White),
                                     shape = RoundedCornerShape(10.dp),
                                     modifier = Modifier.weight(1f)
                                 ) {
@@ -169,7 +172,7 @@ fun AdaptationScreen(
                                 text = "Status: ${suggestion.status}",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = if (suggestion.status == "APPROVED") ForestGreen else MaterialTheme.colorScheme.error
+                                color = if (suggestion.status == "APPROVED") SuccessGreen else MaterialTheme.colorScheme.error
                             )
                         }
                     }

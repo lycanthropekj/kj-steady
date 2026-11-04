@@ -1,6 +1,6 @@
 {
-  "versionCode": 7,
-  "versionName": "2.0.5",
-  "releaseNotes": "Fix: Resolved Overview screen zero-progress layout exception, added responsive bottom navigation with icon labels, and direct Health Connect sync shortcuts.",
-  "downloadUrl": "https://github.com/lycanthropekj/kj-steady/releases/download/v2.0.5/KJ-Steady-v2.0.5.apk"
+  "versionCode": 8,
+  "versionName": "2.0.6",
+  "releaseNotes": "UI Visual Overhaul: High-contrast multi-colored palette. Crisp Slate background & cards, distinct metric colors (Steps in Orange, Sleep in Violet, Hydration in Sky Blue, Weight in Deep Navy & Royal Blue, Meals in Emerald, Coffee in Chestnut Amber), clean navigation bar, and enhanced legibility.",
+  "downloadUrl": "https://github.com/lycanthropekj/kj-steady/releases/download/v2.0.6/KJ-Steady-v2.0.6.apk"
 }

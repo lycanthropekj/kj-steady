@@ -96,13 +96,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             _isCheckingUpdate.value = true
             val url = _userPreferences.value.updateCheckUrl
-            val update = com.kj.steady.logic.UpdateManager.checkForUpdate(url, currentVersionCode = 7)
+            val update = com.kj.steady.logic.UpdateManager.checkForUpdate(url, currentVersionCode = 8)
             _isCheckingUpdate.value = false
             _availableUpdate.value = update
             if (update != null) {
                 _uiToast.emit("Update available: v${update.versionName}!")
             } else if (!silent) {
-                _uiToast.emit("KJ Steady is up to date (v2.0.5)")
+                _uiToast.emit("KJ Steady is up to date (v2.0.6)")
             }
         }
     }

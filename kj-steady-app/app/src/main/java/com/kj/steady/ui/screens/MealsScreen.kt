@@ -1,5 +1,6 @@
 package com.kj.steady.ui.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,8 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.kj.steady.ui.theme.ForestGreen
-import com.kj.steady.ui.theme.RestrainedLime
+import com.kj.steady.ui.theme.*
 import com.kj.steady.ui.viewmodel.MainViewModel
 
 @Composable
@@ -75,6 +75,7 @@ fun MealsScreen(
                     Card(
                         shape = RoundedCornerShape(16.dp),
                         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                        border = BorderStroke(1.dp, Slate200),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 6.dp)
@@ -93,13 +94,14 @@ fun MealsScreen(
                                 )
                                 Surface(
                                     shape = RoundedCornerShape(8.dp),
-                                    color = ForestGreen.copy(alpha = 0.1f)
+                                    color = ProteinAmberLight,
+                                    border = BorderStroke(1.dp, ProteinAmberBorder)
                                 ) {
                                     Text(
                                         text = "${template.proteinGrams.toInt()}g Protein",
                                         fontSize = 11.sp,
                                         fontWeight = FontWeight.Bold,
-                                        color = ForestGreen,
+                                        color = ProteinAmber,
                                         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                                     )
                                 }
@@ -128,7 +130,8 @@ fun MealsScreen(
                 // Weekly Dinner Planner
                 Card(
                     shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+                    colors = CardDefaults.cardColors(containerColor = NutritionEmeraldLight),
+                    border = BorderStroke(1.dp, NutritionEmeraldBorder),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Column(modifier = Modifier.padding(14.dp)) {
@@ -136,13 +139,13 @@ fun MealsScreen(
                             text = "Friction Reduction Strategy",
                             fontWeight = FontWeight.Bold,
                             fontSize = 13.sp,
-                            color = ForestGreen
+                            color = NutritionEmeraldDark
                         )
                         Text(
                             text = "Deciding what to eat at 7:30 PM after office is when ordering happens. Having pre-stocked ingredients eliminates decision fatigue.",
                             fontSize = 12.sp,
                             lineHeight = 17.sp,
-                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f)
+                            color = Slate600
                         )
                     }
                 }
@@ -153,6 +156,7 @@ fun MealsScreen(
                     Card(
                         shape = RoundedCornerShape(16.dp),
                         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                        border = BorderStroke(1.dp, Slate200),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 5.dp)
@@ -167,14 +171,14 @@ fun MealsScreen(
                                     text = day.dayName.uppercase(),
                                     fontSize = 11.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = ForestGreen,
+                                    color = BrandBlue,
                                     letterSpacing = 1.sp
                                 )
                                 Text(
                                     text = "~${day.proteinTargetGrams.toInt()}g Protein Target",
                                     fontSize = 11.sp,
                                     fontWeight = FontWeight.Medium,
-                                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                                    color = Slate500
                                 )
                             }
                             Spacer(modifier = Modifier.height(6.dp))

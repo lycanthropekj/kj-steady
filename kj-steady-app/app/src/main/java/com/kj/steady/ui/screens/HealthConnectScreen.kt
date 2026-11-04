@@ -1,5 +1,6 @@
 package com.kj.steady.ui.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,8 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kj.steady.health.HealthConnectStatus
-import com.kj.steady.ui.theme.ForestGreen
-import com.kj.steady.ui.theme.RestrainedLime
+import com.kj.steady.ui.theme.*
 import com.kj.steady.ui.viewmodel.MainViewModel
 
 @Composable
@@ -153,7 +153,8 @@ fun HealthConnectScreen(
         // Sync Action Card
         Card(
             shape = RoundedCornerShape(20.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+            colors = CardDefaults.cardColors(containerColor = BrandBlueLight),
+            border = BorderStroke(1.dp, BrandBlueBorder),
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(18.dp)) {
@@ -161,20 +162,20 @@ fun HealthConnectScreen(
                     text = "On-Demand Sensor Sync",
                     fontWeight = FontWeight.Bold,
                     fontSize = 15.sp,
-                    color = ForestGreen
+                    color = BrandBlueDark
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
                     text = "Sync pulls validated step totals, sleep session intervals, and smart scale weigh-ins without running background battery loops.",
                     fontSize = 12.sp,
                     lineHeight = 17.sp,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f)
+                    color = Slate600
                 )
                 Spacer(modifier = Modifier.height(14.dp))
 
                 Button(
                     onClick = { viewModel.syncHealthConnect() },
-                    colors = ButtonDefaults.buttonColors(containerColor = ForestGreen, contentColor = androidx.compose.ui.graphics.Color.White),
+                    colors = ButtonDefaults.buttonColors(containerColor = BrandBlue, contentColor = androidx.compose.ui.graphics.Color.White),
                     shape = RoundedCornerShape(12.dp),
                     modifier = Modifier.fillMaxWidth().height(48.dp)
                 ) {
@@ -197,21 +198,22 @@ private fun IntegrationStatusRow(title: String, statusBadge: String, note: Strin
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = Modifier.weight(1f)) {
-            Text(title, fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
-            Text(note, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
+            Text(title, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = Slate900)
+            Text(note, fontSize = 11.sp, color = Slate500)
         }
         Surface(
             shape = RoundedCornerShape(8.dp),
-            color = ForestGreen.copy(alpha = 0.1f)
+            color = BrandBlueLight,
+            border = BorderStroke(1.dp, BrandBlueBorder)
         ) {
             Text(
                 text = statusBadge,
                 fontSize = 10.sp,
                 fontWeight = FontWeight.Bold,
-                color = ForestGreen,
+                color = BrandBlue,
                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
             )
         }
     }
-    HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
+    HorizontalDivider(color = Slate200)
 }

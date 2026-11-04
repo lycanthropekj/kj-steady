@@ -3,6 +3,7 @@ package com.kj.steady.ui.screens
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,14 +13,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kj.steady.data.model.UserPreferences
-import com.kj.steady.ui.theme.ForestGreen
-import com.kj.steady.ui.theme.RestrainedLime
+import com.kj.steady.ui.theme.*
 import com.kj.steady.ui.viewmodel.MainViewModel
 import kotlinx.coroutines.launch
 
@@ -152,7 +153,7 @@ fun SetupScreen(
                         )
                         viewModel.savePreferences(updated)
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = ForestGreen),
+                    colors = ButtonDefaults.buttonColors(containerColor = BrandBlue, contentColor = Color.White),
                     shape = RoundedCornerShape(12.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -223,7 +224,7 @@ fun SetupScreen(
                                 showExportResult = json
                             }
                         },
-                        colors = ButtonDefaults.buttonColors(containerColor = ForestGreen),
+                        colors = ButtonDefaults.buttonColors(containerColor = BrandBlue, contentColor = Color.White),
                         shape = RoundedCornerShape(12.dp),
                         modifier = Modifier.weight(1f)
                     ) {
@@ -248,7 +249,7 @@ fun SetupScreen(
 
                 Button(
                     onClick = { showImportDialog = true },
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surfaceVariant, contentColor = ForestGreen),
+                    colors = ButtonDefaults.buttonColors(containerColor = BrandBlueLight, contentColor = BrandBlue),
                     shape = RoundedCornerShape(12.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -336,7 +337,7 @@ fun SetupScreen(
                     shape = RoundedCornerShape(12.dp),
                     modifier = Modifier.fillMaxWidth().height(48.dp)
                 ) {
-                    Text("Configure Health Connect Sync →", fontWeight = FontWeight.SemiBold, color = ForestGreen)
+                    Text("Configure Health Connect Sync →", fontWeight = FontWeight.SemiBold, color = BrandBlue)
                 }
             }
         }
@@ -351,6 +352,7 @@ fun SetupScreen(
         Card(
             shape = RoundedCornerShape(20.dp),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            border = BorderStroke(1.dp, Slate200),
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(18.dp)) {
@@ -358,16 +360,16 @@ fun SetupScreen(
                     text = "APP UPDATES & RELEASES",
                     fontSize = 11.sp,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                    color = Slate500,
                     letterSpacing = 1.sp
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Current Installed Version: v2.0.5 (Build 7)\n" +
+                    text = "Current Installed Version: v2.0.6 (Build 8)\n" +
                             "Direct 1-tap updates without Google Play delays, developer fees, or public review.",
                     fontSize = 12.sp,
                     lineHeight = 17.sp,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f)
+                    color = Slate600
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -375,7 +377,7 @@ fun SetupScreen(
                 Button(
                     onClick = { viewModel.checkForAppUpdate(silent = false) },
                     enabled = !isCheckingUpdate,
-                    colors = ButtonDefaults.buttonColors(containerColor = ForestGreen),
+                    colors = ButtonDefaults.buttonColors(containerColor = BrandBlue, contentColor = Color.White),
                     shape = RoundedCornerShape(12.dp),
                     modifier = Modifier.fillMaxWidth().height(48.dp)
                 ) {
@@ -386,16 +388,17 @@ fun SetupScreen(
                     Spacer(modifier = Modifier.height(10.dp))
                     Surface(
                         shape = RoundedCornerShape(10.dp),
-                        color = RestrainedLime.copy(alpha = 0.3f),
+                        color = BrandBlueLight,
+                        border = BorderStroke(1.dp, BrandBlueBorder),
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Column(modifier = Modifier.padding(12.dp)) {
-                            Text("New Version Available: v${update.versionName}", fontWeight = FontWeight.Bold, fontSize = 13.sp, color = ForestGreen)
-                            Text(update.releaseNotes, fontSize = 11.sp, color = ForestGreen)
+                            Text("New Version Available: v${update.versionName}", fontWeight = FontWeight.Bold, fontSize = 13.sp, color = BrandBlueDark)
+                            Text(update.releaseNotes, fontSize = 11.sp, color = BrandBlueDark.copy(alpha = 0.85f))
                             Spacer(modifier = Modifier.height(8.dp))
                             Button(
                                 onClick = { viewModel.downloadAndInstallUpdate(context) },
-                                colors = ButtonDefaults.buttonColors(containerColor = ForestGreen),
+                                colors = ButtonDefaults.buttonColors(containerColor = BrandBlue, contentColor = Color.White),
                                 shape = RoundedCornerShape(8.dp)
                             ) {
                                 Text("Download & Install v${update.versionName}", fontSize = 12.sp, fontWeight = FontWeight.Bold)
