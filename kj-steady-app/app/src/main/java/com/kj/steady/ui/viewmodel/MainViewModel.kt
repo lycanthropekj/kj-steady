@@ -5,6 +5,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.kj.steady.KJSteadyApp
 import com.kj.steady.data.model.*
+import com.kj.steady.health.HealthConnectManager
+import com.kj.steady.health.HealthConnectStatus
 import com.kj.steady.logic.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -13,7 +15,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val app = application as KJSteadyApp
     private val repository = app.repository
-    private val healthConnectManager = app.healthConnectManager
+    val healthConnectManager: HealthConnectManager = app.healthConnectManager
 
     // Selected Date for editing/viewing (YYYY-MM-DD)
     private val _selectedDate = MutableStateFlow(DateUtils.today())
@@ -92,17 +94,48 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _downloadProgress = MutableStateFlow<Float?>(null)
     val downloadProgress: StateFlow<Float?> = _downloadProgress.asStateFlow()
 
+    // Health Connect States
+    private val _healthConnectStatus = MutableStateFlow(healthConnectManager.checkAvailability())
+    val healthConnectStatus: StateFlow<HealthConnectStatus> = _healthConnectStatus.asStateFlow()
+
+    private val _grantedHealthPermissions = MutableStateFlow<Set<String>>(emptySet())
+    val grantedHealthPermissions: StateFlow<Set<String>> = _grantedHealthPermissions.asStateFlow()
+
+    init {
+        refreshHealthConnectStatus()
+    }
+
+    fun refreshHealthConnectStatus() {
+        viewModelScope.launch {
+            _healthConnectStatus.value = healthConnectManager.checkAvailability()
+            _grantedHealthPermissions.value = healthConnectManager.getGrantedPermissions()
+        }
+    }
+
+    fun onHealthPermissionsResult(granted: Set<String>) {
+        viewModelScope.launch {
+            _grantedHealthPermissions.value = granted
+            _healthConnectStatus.value = healthConnectManager.checkAvailability()
+            if (granted.isNotEmpty()) {
+                _uiToast.emit("Permissions granted! Syncing Health Connect...")
+                syncHealthConnect()
+            } else {
+                _uiToast.emit("No permissions granted. Health Connect cannot sync.")
+            }
+        }
+    }
+
     fun checkForAppUpdate(silent: Boolean = false) {
         viewModelScope.launch {
             _isCheckingUpdate.value = true
             val url = _userPreferences.value.updateCheckUrl
-            val update = com.kj.steady.logic.UpdateManager.checkForUpdate(url, currentVersionCode = 8)
+            val update = com.kj.steady.logic.UpdateManager.checkForUpdate(url, currentVersionCode = 9)
             _isCheckingUpdate.value = false
             _availableUpdate.value = update
             if (update != null) {
                 _uiToast.emit("Update available: v${update.versionName}!")
             } else if (!silent) {
-                _uiToast.emit("KJ Steady is up to date (v2.0.6)")
+                _uiToast.emit("KJ Steady is up to date (v2.0.7)")
             }
         }
     }
@@ -119,7 +152,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             if (apk != null) {
                 com.kj.steady.logic.UpdateManager.promptInstallApk(context, apk)
             } else {
-                _uiToast.emit("Download failed. Check your internet connection.")
+                _uiToast.emit("Download failed. Please check internet connection.")
             }
         }
     }
@@ -204,6 +237,24 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun syncHealthConnect() {
         viewModelScope.launch {
+            val status = healthConnectManager.checkAvailability()
+            _healthConnectStatus.value = status
+            if (status == HealthConnectStatus.UNAVAILABLE) {
+                _uiToast.emit("Health Connect is unavailable on this device.")
+                return@launch
+            }
+            if (status == HealthConnectStatus.UPDATE_REQUIRED) {
+                _uiToast.emit("Health Connect update required from Google Play Store.")
+                return@launch
+            }
+
+            val granted = healthConnectManager.getGrantedPermissions()
+            _grantedHealthPermissions.value = granted
+            if (granted.isEmpty()) {
+                _uiToast.emit("Permissions needed. Tap 'Grant Permissions' in Health Connect screen.")
+                return@launch
+            }
+
             val date = _selectedDate.value
             val result = healthConnectManager.fetchDailyMetrics(date, _userPreferences.value)
             if (result != null) {
@@ -216,9 +267,18 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     updatedAt = System.currentTimeMillis()
                 )
                 repository.upsertDailyEntry(updated)
-                _uiToast.emit("Synced: ${result.sourceName}")
+
+                if (result.recordsFound) {
+                    val parts = mutableListOf<String>()
+                    result.steps?.let { parts.add("%,d steps".format(it)) }
+                    result.sleepHours?.let { parts.add("%.1f h sleep".format(it)) }
+                    result.weightKg?.let { parts.add("%.1f kg".format(it)) }
+                    _uiToast.emit("Synced: ${parts.joinToString(", ")}")
+                } else {
+                    _uiToast.emit("Connected! No new Health records found for today.")
+                }
             } else {
-                _uiToast.emit("Health Connect unavailable or permissions needed.")
+                _uiToast.emit("Could not read Health Connect data. Check permissions.")
             }
         }
     }

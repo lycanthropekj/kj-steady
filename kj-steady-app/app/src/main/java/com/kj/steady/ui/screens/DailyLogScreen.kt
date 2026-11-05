@@ -1,5 +1,6 @@
 package com.kj.steady.ui.screens
 
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -18,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.health.connect.client.PermissionController
 import com.kj.steady.data.model.DailyEntry
 import com.kj.steady.logic.BloodPressureEvaluator
 import com.kj.steady.logic.DateUtils
@@ -33,6 +35,13 @@ fun DailyLogScreen(
     val selectedDate by viewModel.selectedDate.collectAsState()
     val currentEntry by viewModel.currentEntry.collectAsState()
     val bpReadings by viewModel.currentBpReadings.collectAsState()
+    val grantedPermissions by viewModel.grantedHealthPermissions.collectAsState()
+
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = PermissionController.createRequestPermissionResultContract()
+    ) { granted ->
+        viewModel.onHealthPermissionsResult(granted)
+    }
 
     // Form states
     var weightText by remember(currentEntry) { mutableStateOf(currentEntry?.morningWeight?.toString() ?: "") }
@@ -174,12 +183,22 @@ fun DailyLogScreen(
                     )
 
                     Button(
-                        onClick = { viewModel.syncHealthConnect() },
+                        onClick = {
+                            if (grantedPermissions.isEmpty()) {
+                                permissionLauncher.launch(viewModel.healthConnectManager.requiredPermissions)
+                            } else {
+                                viewModel.syncHealthConnect()
+                            }
+                        },
                         colors = ButtonDefaults.buttonColors(containerColor = BrandBlueLight, contentColor = BrandBlue),
                         shape = RoundedCornerShape(12.dp),
                         modifier = Modifier.weight(1f).height(54.dp)
                     ) {
-                        Text("Sync Health Connect", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                        Text(
+                            text = if (grantedPermissions.isEmpty()) "Connect & Sync" else "Sync Health Connect",
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.Bold
+                        )
                     }
                 }
             }

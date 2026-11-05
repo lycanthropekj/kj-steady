@@ -1,6 +1,6 @@
 {
-  "versionCode": 8,
-  "versionName": "2.0.6",
-  "releaseNotes": "UI Visual Overhaul: High-contrast multi-colored palette. Crisp Slate background & cards, distinct metric colors (Steps in Orange, Sleep in Violet, Hydration in Sky Blue, Weight in Deep Navy & Royal Blue, Meals in Emerald, Coffee in Chestnut Amber), clean navigation bar, and enhanced legibility.",
-  "downloadUrl": "https://github.com/lycanthropekj/kj-steady/releases/download/v2.0.6/KJ-Steady-v2.0.6.apk"
+  "versionCode": 9,
+  "versionName": "2.0.7",
+  "releaseNotes": "Fix Health Connect Sync & Permissions: Added 1-tap Health Connect permission request launcher, dynamic connection status card, Android manifest package queries for Galaxy S24 Ultra, and direct setup shortcuts.",
+  "downloadUrl": "https://github.com/lycanthropekj/kj-steady/releases/download/v2.0.7/KJ-Steady-v2.0.7.apk"
 }

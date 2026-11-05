@@ -1,4 +1,4 @@
-# KJ Steady (v2.0.6)
+# KJ Steady (v2.0.7)
 
 **KJ Steady** is an offline-first, native Android personal health, routine, and weight-management companion built specifically for KJ (Samsung Galaxy S24 Ultra, Asia/Kolkata timezone).
 
@@ -8,14 +8,14 @@ It replaces the prototype Java WebView app with modern native Android architectu
 
 ## 🚀 Download & Installation
 
-* **Latest Release APK**: [Download KJ-Steady-v2.0.6.apk](https://github.com/lycanthropekj/kj-steady/releases/download/v2.0.6/KJ-Steady-v2.0.6.apk)
+* **Latest Release APK**: [Download KJ-Steady-v2.0.7.apk](https://github.com/lycanthropekj/kj-steady/releases/download/v2.0.7/KJ-Steady-v2.0.7.apk)
 * **Package ID**: `com.kj.steady`
-* **Version**: `2.0.6` (Build `8`)
+* **Version**: `2.0.7` (Build `9`)
 * **Target Device**: Samsung Galaxy S24 Ultra (Android 14 / Android 15 / SDK 35)
 * **Signing**: Signed with personal development keystore for in-place updates.
 
 ### Direct In-Place Installation:
-1. Download `KJ-Steady-v2.0.6.apk` on your phone.
+1. Download `KJ-Steady-v2.0.7.apk` on your phone.
 2. Tap the file in **Samsung My Files** and select **Update**.
 3. All existing prototype logs (weights, steps, notes) migrate automatically on first launch via Room SQLite.
 
