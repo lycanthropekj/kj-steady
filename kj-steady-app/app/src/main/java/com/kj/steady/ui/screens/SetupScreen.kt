@@ -365,7 +365,7 @@ fun SetupScreen(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Current Installed Version: v2.0.7 (Build 9)\n" +
+                    text = "Current Installed Version: Stratos v2.0.8 (Build 10)\n" +
                             "Direct 1-tap updates without Google Play delays, developer fees, or public review.",
                     fontSize = 12.sp,
                     lineHeight = 17.sp,
@@ -447,7 +447,7 @@ fun SetupScreen(
                 Button(
                     onClick = {
                         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                        clipboard.setPrimaryClip(ClipData.newPlainText("KJ Steady Export", content))
+                        clipboard.setPrimaryClip(ClipData.newPlainText("Stratos Export", content))
                         showExportResult = null
                     }
                 ) { Text("Copy to Clipboard") }

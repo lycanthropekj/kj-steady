@@ -1,6 +1,6 @@
 {
-  "versionCode": 9,
-  "versionName": "2.0.7",
-  "releaseNotes": "Fix Health Connect Sync & Permissions: Added 1-tap Health Connect permission request launcher, dynamic connection status card, Android manifest package queries for Galaxy S24 Ultra, and direct setup shortcuts.",
-  "downloadUrl": "https://github.com/lycanthropekj/kj-steady/releases/download/v2.0.7/KJ-Steady-v2.0.7.apk"
+  "versionCode": 10,
+  "versionName": "2.0.8",
+  "releaseNotes": "Stratos v2.0.8: Renamed app to Stratos. Visual overhaul of Health Integrations tab with pure white cards, high-contrast typography, and multi-colored metric badges.",
+  "downloadUrl": "https://github.com/lycanthropekj/kj-steady/releases/download/v2.0.8/Stratos-v2.0.8.apk"
 }

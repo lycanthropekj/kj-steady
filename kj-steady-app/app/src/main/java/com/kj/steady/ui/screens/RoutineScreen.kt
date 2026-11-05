@@ -210,9 +210,9 @@ fun RoutineScreen(
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "On Samsung Galaxy S24 Ultra, One UI may place apps into 'Deep Sleep' after 3 days of non-interaction. If reminders are ever delayed:\n\n" +
-                            "1. Go to Galaxy Settings → Apps → KJ Steady.\n" +
+                            "1. Go to Galaxy Settings → Apps → Stratos.\n" +
                             "2. Tap Battery → Select 'Unrestricted'.\n" +
-                            "3. Settings → Battery → Background usage limits → ensure KJ Steady is not in 'Deep sleeping apps'.",
+                            "3. Settings → Battery → Background usage limits → ensure Stratos is not in 'Deep sleeping apps'.",
                     fontSize = 12.sp,
                     lineHeight = 18.sp,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f)

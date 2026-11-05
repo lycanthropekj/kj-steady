@@ -40,7 +40,7 @@ class NotificationActionReceiver : BroadcastReceiver() {
                     "HYDRATION" -> Triple("Hydration & Movement", "Take a brief stretch and drink a glass of water (~250 mL).", NotificationHelper.CHANNEL_HYDRATION)
                     "DINNER_PREP" -> Triple("Dinner Strategy", "Cooking tonight? Egg Bhurji or Paneer Bhurji takes 15 mins and hits your ~40g protein target.", NotificationHelper.CHANNEL_ROUTINE)
                     "EVENING_LOG" -> Triple("Evening Reflection", "Log today's BP, dinner, and cigarettes. Small entries, clearer decisions.", NotificationHelper.CHANNEL_EVENING_LOG)
-                    else -> Triple("KJ Steady", "Time for your scheduled routine check-in.", NotificationHelper.CHANNEL_ROUTINE)
+                    else -> Triple("Stratos", "Time for your scheduled routine check-in.", NotificationHelper.CHANNEL_ROUTINE)
                 }
 
                 NotificationHelper.postNotification(context, alarmId, channel, title, message, category)

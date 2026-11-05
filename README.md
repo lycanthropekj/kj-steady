@@ -1,6 +1,6 @@
-# KJ Steady (v2.0.7)
+# Stratos (v2.0.8)
 
-**KJ Steady** is an offline-first, native Android personal health, routine, and weight-management companion built specifically for KJ (Samsung Galaxy S24 Ultra, Asia/Kolkata timezone).
+**Stratos** is an offline-first, native Android personal health, routine, and weight-management companion built specifically for KJ (Samsung Galaxy S24 Ultra, Asia/Kolkata timezone).
 
 It replaces the prototype Java WebView app with modern native Android architecture: **100% offline, privacy-focused, zero subscriptions, zero ads, and zero AI credits.**
 
@@ -8,16 +8,16 @@ It replaces the prototype Java WebView app with modern native Android architectu
 
 ## 🚀 Download & Installation
 
-* **Latest Release APK**: [Download KJ-Steady-v2.0.7.apk](https://github.com/lycanthropekj/kj-steady/releases/download/v2.0.7/KJ-Steady-v2.0.7.apk)
+* **Latest Release APK**: [Download Stratos-v2.0.8.apk](https://github.com/lycanthropekj/kj-steady/releases/download/v2.0.8/Stratos-v2.0.8.apk)
 * **Package ID**: `com.kj.steady`
-* **Version**: `2.0.7` (Build `9`)
+* **Version**: `2.0.8` (Build `10`)
 * **Target Device**: Samsung Galaxy S24 Ultra (Android 14 / Android 15 / SDK 35)
 * **Signing**: Signed with personal development keystore for in-place updates.
 
 ### Direct In-Place Installation:
-1. Download `KJ-Steady-v2.0.7.apk` on your phone.
+1. Download `Stratos-v2.0.8.apk` on your phone.
 2. Tap the file in **Samsung My Files** and select **Update**.
-3. All existing prototype logs (weights, steps, notes) migrate automatically on first launch via Room SQLite.
+3. All existing logs migrate automatically on first launch via Room SQLite.
 
 ---
 

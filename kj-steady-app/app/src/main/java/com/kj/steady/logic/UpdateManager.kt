@@ -68,7 +68,7 @@ object UpdateManager {
         try {
             val updatesDir = File(context.cacheDir, "updates")
             if (!updatesDir.exists()) updatesDir.mkdirs()
-            val targetFile = File(updatesDir, "KJ-Steady-update.apk")
+            val targetFile = File(updatesDir, "Stratos-update.apk")
             if (targetFile.exists()) targetFile.delete()
 
             val url = URL(downloadUrl)
